@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./js/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<style>
+    body {
+        background-color: #0c2d41;
+        width: 100%;
+        font-size: 2rem;
+        color: white;
+        font-weight: 700;
+        font-family: Roboto, 'Courier New', Courier, monospace;
+        margin-top: 200px;
+    }
+
+    .container {
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    .row {
+        height: 50px;
+        text-align: center;
+    }
+
+    span {
+        position: relative;
+        transition: all 0.2s;
+        width: 40px;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        display: inline-block;
+        /* float: left; */
+        margin: auto;
+        /* background-color: #1e75ac; */
+        transition: all .2s ease-in-out;
+        z-index: 2;
+    }
+    span:after,
+    span:before {
+        display: block;
+        top: 0;
+        left: 0;
+        width: 40px;
+        height: 50px;
+        position: absolute;
+        z-index: -1;
+        content: ' ';
+    }
+
+    span:nth-child(odd)::before {
+        background-color: rgba(0, 0, 0,0.1);
+        transform-origin: 0 0;
+        transform: skewY(15deg);
+    }
+
+    span:nth-child(even)::before {
+        background-color: rgba(0, 0, 0,0.1);
+        transform-origin: 100% 100%;
+        transform: skewY(-15deg);
+    }
+
+    span:nth-child(odd)::after {
+        background-color: #1b6897;
+        /* transform-origin: 0 0;
+        transform: skewY(15deg); */
+    }
+
+    span:nth-child(even)::after {
+        background-color: #175074;
+    }
+    span.alt:nth-child(odd)::after {
+        background-color: #b94a2c;
+    }
+
+    span.alt:nth-child(even)::after {
+        background-color: #9d3f25;
+    }
+
+    span:nth-child(odd) {
+        transform-origin: 0 0;
+        transform: skewY(-15deg);
+    }
+
+    span:nth-child(even) {
+        background-color: #175074;
+        transform-origin: 100% 100%;
+        transform: skewY(15deg);
+    }
+
+    span.alt:nth-child(odd) {
+        transform-origin: 0 0;
+        transform: skewY(-15deg);
+    }
+
+    span.alt:nth-child(even) {
+        background-color: #9d3f25;
+        transform-origin: 100% 100%;
+        transform: skewY(15deg);
+    }
+    span.alt.flat{
+        background-color: #b94a2c;
+        transform: skewY(0);
+    }
+
+    span.flat{
+        background-color: #1b6897;
+        transform: skewY(0);
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="row skew-title">
+            <span>Y</span><span>E</span><span>M</span><span class="last">B</span>
+            <span class="alt">C</span><span class="alt">W</span><span class="alt last">S</span>
+        </div>
+    </div>
+</body>
+<script>
+    (function(){
+        $('.row').children('span').hover((function(){
+            var $el = $(this)
+            var n = $el.index()+1;
+            $el.addClass('flat')
+            if(n%2==0){
+                return $el.prev().addClass('flat')
+            }else{
+                if(!$el.hasClass('last')){
+                    return $el.next().addClass('flat')
+                }
+            }
+        }),function(){
+            return $('.flat').removeClass('flat')
+        })
+    }).call(this)
+</script>
+</html>

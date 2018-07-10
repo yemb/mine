@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>便签-阴影</title>
+    <style>
+        body{
+            background-color: antiquewhite;
+            font-size: 20px;
+            font-weight: 500;
+            color: wheat;
+        }
+        .container{
+            margin-top: 100px;
+        }
+        .bq{
+            position: relative;
+            width: 15%;
+            min-width: 150px;
+            height: 40px;
+            margin: 0 auto 40px auto;
+            text-align: right;
+            border-radius: 5px;
+            box-shadow: 1px 1.5px 1px -1px #222;
+            background:linear-gradient(to right,#abbd73 35%,#d6e2ad 100%);
+            padding: 15px 40px 0 40px;
+            transition: background .2s ease;
+        }
+        .bq::before{
+            content: '';
+            width: 40%;
+            height: 20px;
+            transform: rotate(6deg);
+            box-shadow: 0 15px 10px 5px #777;
+            position: absolute;
+            top: 30%;
+            right: 10px;
+            z-index: -1;
+            transition: all .150s ease;
+        }
+        a{
+            text-decoration: none;
+            color: white;
+        }
+        .hole{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            box-shadow:-1px -1px 2px #222; 
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            background-color: antiquewhite;
+        }
+
+        .bq:hover{
+            background: linear-gradient(to right, #abbd73 0%, #abbd73 100%);
+        }
+        .bq:hover::before{
+            transform: rotate(0deg);
+            top: 0;
+            z-index: -20;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="bq">
+            <a href="#">YEMB</a>
+            <div class="hole"></div>
+        </div>
+        <div class="bq">
+            <a href="#">便签</a>
+            <div class="hole"></div>
+        </div>
+        <div class="bq">
+            <a href="#">HTML5 TRICKS CSS3</a>
+            <div class="hole"></div>
+        </div>
+    </div>
+</body>
+
+</html>
