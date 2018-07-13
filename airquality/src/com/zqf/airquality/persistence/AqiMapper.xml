@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zqf.airquality.persistence.AqiMapper">
+
+	<select id="getAqiList" resultType="com.zqf.airquality.domain.Aqi">
+		SELECT * FROM airquality where city = '北京' order by date
+	</select>
+	
+	<select id="getAqiPredictList" resultType="com.zqf.airquality.domain.AqiPredict">
+		SELECT * FROM aqipredict where city=#{city}
+	</select>
+	
+	<select id="getAqiClusterList2016" resultType="com.zqf.airquality.domain.AqiCluster">
+		SELECT * FROM aqicluster2016
+	</select>
+
+	<select id="getAqiClusterList2017" resultType="com.zqf.airquality.domain.AqiCluster">
+		SELECT * FROM aqicluster2017 ORDER BY points
+	</select>
+	
+	<select id="getAqiClusterListBound" resultType="com.zqf.airquality.domain.ClusterBound">
+		SELECT MIN(points) as minpoint, MAX(points) as maxpoint FROM aqicluster2017 GROUP BY grades ORDER BY minpoint
+	</select>
+	
+	<select id="getAqiClusterList2018" resultType="com.zqf.airquality.domain.AqiCluster">
+		SELECT * FROM aqicluster2018
+	</select>
+	
+	<select id="getAqiRankList" parameterType="com.zqf.airquality.domain.RankParamBean" resultType="com.zqf.airquality.domain.AqiRank">
+		SELECT city, YEAR(date) as year, AVG(aqi) as avgaqi, AVG(pm25) as avgpm25, AVG(pm10) as avgpm10 from airquality WHERE YEAR(date)=#{year} GROUP BY city ORDER BY avgaqi
+	</select>
+	
+	<select id="getAqiMonthAvgList" parameterType="com.zqf.airquality.domain.CityYear" resultType="com.zqf.airquality.domain.AqiMonthAvg">
+		SELECT month(date) as month,avg(aqi) as avgaqi from airquality where city=#{city} and YEAR(date)=#{year} GROUP BY month(date) ORDER BY month(date)
+	</select>
+	
+	<select id="getAirTemList" parameterType="com.zqf.airquality.domain.CityYear" resultType="com.zqf.airquality.domain.AitTem">
+		SELECT * from airtem where city=#{city}
+	</select>
+	
+	<select id="getAqiLevelList" parameterType="com.zqf.airquality.domain.AqiTrendParamBean" resultType="com.zqf.airquality.domain.AqiLevelCount">
+		SELECT level, count(level) as count from airquality where city=#{city} and date BETWEEN #{sdate} and #{edate} GROUP BY level  
+	</select>
+	
+	<select id="getAqiTrendList" parameterType="com.zqf.airquality.domain.AqiTrendParamBean" resultType="com.zqf.airquality.domain.AqiTrend">
+		SELECT date, level, aqi, pm25, pm10, so2, no2, co, o3 from airquality where city=#{city} and date BETWEEN #{sdate} and #{edate} ORDER BY date  
+	</select>
+	
+	<select id="getCityList" resultType="com.zqf.airquality.domain.ProvinceCity">
+		SELECT province, city FROM airtem ORDER BY province, city
+	</select>
+	
+	<select id="getAqiExcellentList" resultType="com.zqf.airquality.domain.CityLevelCount">
+		SELECT city, count FROM aqiexcellent
+	</select>
+	
+	<select id="getAqiGoodList" resultType="com.zqf.airquality.domain.CityLevelCount">
+		SELECT city, count FROM aqigood
+	</select>
+	
+	<select id="getAqiLightPollutionList" resultType="com.zqf.airquality.domain.CityLevelCount">
+		SELECT city, count FROM aqilightpollution
+	</select>
+	
+	<select id="getAqiMiddlePollutionList" resultType="com.zqf.airquality.domain.CityLevelCount">
+		SELECT city, count FROM aqimiddlepollution
+	</select>
+	
+	<select id="getAqiHeavyPollutionList" resultType="com.zqf.airquality.domain.CityLevelCount">
+		SELECT city, count FROM aqiheavypollution
+	</select>
+	
+	<select id="getAqiSeriousPollutionList" resultType="com.zqf.airquality.domain.CityLevelCount">
+		SELECT city, count FROM aqiseriouspollution
+	</select>
+	
+	<select id="getTemperatureList" parameterType="com.zqf.airquality.domain.CityYear" resultType="com.zqf.airquality.domain.AqiTem">
+		SELECT city,province,date,level,aqi,pm25,pm10,so2,no2,co,o3,temperature from aqitem where city=#{city} and YEAR(date)=#{year} ORDER BY date  
+	</select>
+	
+	<select id="getAqiHistoryList" resultType="com.zqf.airquality.domain.AqiHistory">
+		SELECT AVG(aqi) as avgaqi FROM airquality WHERE city = #{city} and date BETWEEN '2013-11-01' and '2018-05-31' GROUP BY YEAR(date), MONTH(date) ORDER BY YEAR(date), MONTH(date)
+	</select>
+	
+	<select id="getAqiRainList" parameterType="com.zqf.airquality.domain.CityYear" resultType="com.zqf.airquality.domain.AqiRain">
+		SELECT yaqi,ypm25,ypm10,yso2,yno2,yco,yo3,naqi,npm25,npm10,nso2,nno2,nco,no3 FROM aqirain WHERE city=#{city} and year=#{year} ORDER BY month
+	</select>
+	
+	<select id="getCityPmList" resultType="com.zqf.airquality.domain.CityPm">
+		SELECT city, avg(pm25) as avgpm25 from airquality where YEAR(date) = '2017' GROUP BY city
+	</select>
+</mapper>
